@@ -25,7 +25,7 @@ const songImageList = [
     songNameWithArtist: "Shape Of You - Ed Sheeran",
     artistName: "Ed Sheeran",
     id: 0,
-    song: "//d6cp9b00-a.akamaihd.net/downloads/ringtones/files/mp3/shape-of-you-28204.mp3",
+    song: "./Shape-Of-You.mp3",
   },
   {
     image:
@@ -34,7 +34,7 @@ const songImageList = [
     songNameWithArtist: "All Of Me - Adele",
     artistName: "Adele",
     id: 1,
-    song: "./songs_track_1.mp3",
+    song: "./All-Of-Me.mp3",
   },
   {
     image: "https://i1.sndcdn.com/artworks-000074073161-kmgoqv-t500x500.jpg",
