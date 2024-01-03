@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+    <link rel="stylesheet" href="MusicPlayer.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+</head>
+
+<body id="main">
+    <header class="app-header ">
+        <!-- <div class="toggle ">
+            <input type="checkbox" 
+                id="flexSwitchCheckDefault">
+                <div class="indicator"></div>
+        </div> -->
+        <label>
+            <div class="toggle" id="toggle-container">
+              <input type="checkbox" id="flexSwitchCheckDefault" role="switch"/>
+              <div class="indicator"></div>
+              
+            </div>
+          </label>
+        <h1 class="main-heading">Music Player</h1>
+    </header>
+    <br />
+    <div class="app-container">
+
+        <!-- left part -->
+        <div class="all-song-div dark-theme">
+            <div class="genre-dropdown-container">
+                Filter by Genre:
+                <select id="select-genre" value="all" class="dropbtn" onchange="showSongs()">
+                    <option class="dropdown-content" value="all"><a href="#all-songs">All</a></option>
+                    <option class="dropdown-content" value="rock"><a href="#rock-songs">Rock</a></option>
+                    <option class="dropdown-content" value="pop">Pop</option>
+                    <option class="dropdown-content" value="hip-pop">Hip-pop</option>
+                </select>
+
+                <div class="songs-container">
+                    <h3>All Songs</h3>
+                    <div id="songsListContainer">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- centre part -->
+        <div class="card-div dark-theme">
+            <div id="song-image">
+
+            </div>
+            <div id="song-audio-container">
+                <audio controls autoplay id="song-audio">
+                    <!-- <source src="horse.mp3" type="audio/mpeg"> -->
+                </audio>
+            </div>
+            <div class="audio-button-container">
+                <span><button id="prev-button" class="audio-control " onclick="handlePrevNext('prev')">  <i class="fa fa-arrow-left" aria-hidden="true" style="font-size: 28px;"></i></button>
+                    <button id="next-button" class="audio-control" onclick="handlePrevNext('next')"> <i class="fa fa-arrow-right" aria-hidden="true" style="font-size: 28px;"></i> </button></span>
+                <button id="addtoplaylist-button" class="audio-control " onclick="addToPlaylistSong()"> Add to playlist </button>
+            </div>
+        </div>
+
+
+        <!-- right part -->
+        <div class="playlist-div">
+            <div class="playlist-container" id="playlist-container-div">
+                <input id="playlist-searchbar" type="search" class="search-playlist" name="search-playlist"
+                    placeholder="Enter playlist name" >
+                <button class="search-playlist" onclick="createPlaylist()">Create Playlist</button>
+            </div>
+            <div class="right-container-part dark-theme">
+                <div class="current-playlist-container"> 
+                    <h3>Current Playlist</h3>
+                    <ul id="current-playlist-ul" class="songsList-innner-div">
+
+                    </ul>
+                    
+                </div>
+                <div id = "create-playlist-container" class="songsList-innner-div">
+                    <h3>All Playlists</h3>
+                    <ul id="all-playlist-ul">
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="MusicPlayer.js" ></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>
