@@ -13,7 +13,7 @@ const songsData = {
     "All Of Me - Adele",
     "Somelike Like You - Adele",
   ],
-  rock: ["Song A", "Song B", "Song C"],
+  rock: ["All Of Me - Adele", "Wonderwall - oasis", "Locked Away - R. CityC"],
   "hip-pop": ["Sugar - Maroon", "Locked Away - R. City"],
 };
 
@@ -70,6 +70,14 @@ const songImageList = [
     song: "./track_7.mp3",
   },
 ];
+
+const getGenreDropdownOptions = document.getElementById('select-genre');
+Object.entries(songsData).forEach(([key,value])=>{
+  const genreDropOption = document.createElement('option');
+  genreDropOption.value = key
+  genreDropOption.textContent = key?.charAt(0).toUpperCase() + key.substring(1)
+  getGenreDropdownOptions.appendChild(genreDropOption);
+})
 
 const audioElement = document.getElementById("song-audio");
 let getCurrentSongObj;
