@@ -258,7 +258,83 @@ function createPlaylist() {
     });
   }
 }
+const searchSongsDropdownContainer = document.createElement("ul");
+searchSongsDropdownContainer.id = "searchFieldOutputSelect";
+const searchSongsContainer = document.getElementById("searchSongsContainer"); //searchSongsContainer
+let searchString = '';
+
+function displayMatchingSongsList(searchString, tempArray) {
+  searchSongsDropdownContainer.innerHTML = "";
+
+  if (tempArray.length === 0) {
+    const searchSongsDropdownOptions = document.createElement("li");
+    searchSongsDropdownOptions.className = "matchingSongsList";
+    searchSongsDropdownOptions.id = "matchingSong";
+    searchSongsDropdownOptions.textContent = "No songs found";
+    searchSongsContainer.appendChild(searchSongsDropdownContainer);
+    searchSongsDropdownContainer.appendChild(searchSongsDropdownOptions);
+  }
+  tempArray.forEach((song) => {
+    const searchSongsDropdownOptions = document.createElement("li");
+    searchSongsDropdownOptions.className = "matchingSongsList";
+    searchSongsDropdownOptions.id = "matchingSong";
+    searchSongsDropdownOptions.textContent = song;
+
+    searchSongsDropdownOptions.addEventListener("click", (e) => {
+      renderCurrentSong(e.target.textContent);
+    });
+    searchSongsContainer.appendChild(searchSongsDropdownContainer);
+    searchSongsDropdownContainer.appendChild(searchSongsDropdownOptions);
+  });
+}
+
+//search songs functionality starts here
+function onSearchClick() {
+  let tempArray = [];
+
+  const getMatchingValues = Object.keys(songsData)
+    .map((key) => songsData[key])
+    .flat();
+  //this will return us an array with all songs
+  getMatchingValues.forEach((song) => {
+    if (searchString?.length > 0 && song.toLowerCase().includes(searchString)) {
+      tempArray.push(song);
+    }
+  });
+  if (searchString?.length) {
+    displayMatchingSongsList(searchString, Array.from(new Set(tempArray)));
+  } else {
+    tempArray = [];
+    searchSongsDropdownContainer.innerHTML = "";
+  }
+}
+
+function searchSongs() {
+  console.log("searchString", searchString?.length);
+
+  if (
+    searchString?.length === 0 &&
+    searchSongsContainer.contains(searchSongsDropdownContainer)
+  ) {
+    searchSongsContainer.removeChild(searchSongsDropdownContainer);
+  }
+  const searchBar = document.getElementById("searchBoxInput");
+  searchBar.addEventListener("keyup", (e) => {
+    searchString = e.target.value;
+  });
+  
+}
+//search songs functionality - end
 
 // Initial rendering when the page loads
 showSongs();
 renderCurrentSong("Shape Of You - Ed Sheeran");
+
+
+
+
+/* Todo - 
+1) refactor the above code and optimize it using codium
+2) add comments to understand the flow
+3) make detailed doc to keep it handy for future
+*/

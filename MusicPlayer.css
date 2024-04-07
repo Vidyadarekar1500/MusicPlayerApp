@@ -16,7 +16,7 @@
   
 .app-container {
     display: flex;
-   gap:20px
+    gap:20px
 }
 .all-song-div {
     background-color: #6BB8DE;
@@ -289,5 +289,37 @@ align-items: center;
     float: right;
     color: white;
 }
+.top-right-container{
+    display: flex;
+    justify-content: flex-end;
+    align-items:center;
+}
+#searchBoxInput{
+    padding:4px;
+}
+.searchButton{
+    padding: 2px;
+    margin:5px
+}
 
+#searchFieldOutputSelect{
+    padding: 5px;
+    color: #000;
+    background: #ffff;
+    list-style: none;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
 
+@media screen and (max-width: 1000px) {
+    .app-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        overflow-y: auto;
+    }
+    .top-right-container {
+        display: flex;
+        /* justify-content: center; */
+        align-items: center;
+    }
+}
