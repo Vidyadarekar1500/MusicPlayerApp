@@ -1,21 +1,28 @@
 let selectedGenre;
 let songsData = {};
 let songImageList = [];
-// Fetch the JSON file using fetch method
-fetch("constants.json")
-  .then((response) => {
-    // Check if the response is successful
-    if (!response.ok) {
-      throw new Error("Network response was not ok");
+
+ async function fetchSongsData() {
+  try {
+    const response = await fetch("constants.json");
+    if(response.status === 200) {
+      const data  = await response.json();
+      // response.json() is a method provided by the Fetch API that returns a promise. 
+      // This promise resolves with the result of parsing the JSON body text of the response.
+      // in summary, await response.json(); is fetching the JSON body of the response, parsing it, and then returning the parsed data.
+      return data
+    } else{
+      throw new Error("Network response was not ok")
     }
-    // Parse the JSON data
-    return response.json();
-  })
-  .then((data) => {
-    // Store the parsed data in the variable
-    jsonData = data;
-    songsData = data.songsData;
-    songImageList = data.songImageList;
+  }catch (e){
+    console.error("There was a problem with the fetch operation:", e);
+    return null;
+  }
+ }
+async function initializePage(){
+    let response = await fetchSongsData();
+    songsData = response.songsData;
+    songImageList = response.songImageList;
 
     //moving inital rendering of songs inside then() block, because the fetching of the JSON data is asynchronous, meaning that the rest of the code continues to execute while the fetch operation is ongoing
     const getGenreDropdownOptions = document.getElementById("select-genre");
@@ -29,11 +36,9 @@ fetch("constants.json")
 
     showSongs();
     renderCurrentSong("Shape Of You - Ed Sheeran");
+}
 
-  })
-  .catch((error) => {
-    console.error("There was a problem with the fetch operation:", error);
-  });
+initializePage();
 
 const audioElement = document.getElementById("song-audio");
 let getCurrentSongObj;
