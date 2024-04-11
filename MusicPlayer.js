@@ -209,7 +209,7 @@ function renderPlaylistSong(playlistWiseSongs, getNewPlaylistValue) {
   }
 }
 
-function addToPlaylistSong() {
+function addSongToPlaylist() {
   if (
     getNewPlaylistValue &&
     !Boolean(
@@ -302,19 +302,25 @@ function onSearchClick() {
 }
 
 function searchSongs() {
-  console.log("searchString", searchString?.length);
-
-  if (
-    searchString?.length === 0 &&
-    searchSongsContainer.contains(searchSongsDropdownContainer)
-  ) {
-    searchSongsContainer.removeChild(searchSongsDropdownContainer);
-  }
   const searchBar = document.getElementById("searchBoxInput");
   searchBar.addEventListener("keyup", (e) => {
     searchString = e.target.value;
   });
+  const handleSearch = () => {
+    searchString = searchBar.value.trim();
+    if (
+      searchString?.length === 0 &&
+      searchSongsContainer.contains(searchSongsDropdownContainer)
+    ) {
+      console.log("in");
+      searchSongsContainer.removeChild(searchSongsDropdownContainer);
+    }
+  };
+  searchBar.addEventListener("input", handleSearch);
+  // Listen for blur events
+  searchBar.addEventListener("blur", handleSearch);
 }
+
 //search songs functionality - end
 
 // Initial rendering when the page loads
