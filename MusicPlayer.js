@@ -255,7 +255,7 @@ searchSongsDropdownContainer.id = "searchFieldOutputSelect";
 const searchSongsContainer = document.getElementById("searchSongsContainer"); //searchSongsContainer
 let searchString = "";
 
-function displayMatchingSongsList(searchString, tempArray) {
+function displayMatchingSongsList(tempArray) {
   searchSongsDropdownContainer.innerHTML = "";
 
   if (tempArray.length === 0) {
@@ -280,7 +280,7 @@ function displayMatchingSongsList(searchString, tempArray) {
   });
 }
 
-//search songs functionality starts here
+//search songs functionality - starts 
 function onSearchClick() {
   let tempArray = [];
 
@@ -294,7 +294,7 @@ function onSearchClick() {
     }
   });
   if (searchString?.length) {
-    displayMatchingSongsList(searchString, Array.from(new Set(tempArray)));
+    displayMatchingSongsList(Array.from(new Set(tempArray)));
   } else {
     tempArray = [];
     searchSongsDropdownContainer.innerHTML = "";
@@ -322,10 +322,6 @@ function searchSongs() {
 }
 
 //search songs functionality - end
-
-// Initial rendering when the page loads
-// showSongs();
-// renderCurrentSong("Shape Of You - Ed Sheeran");
 
 /* Todo - 
 1) refactor the above code and optimize it using codium
