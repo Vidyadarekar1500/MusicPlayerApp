@@ -1,90 +1,52 @@
 let selectedGenre;
-const songsData = {
-  all: [
-    "Shape Of You - Ed Sheeran",
-    "All Of Me - Adele",
-    "Somelike Like You - Adele",
-    "Wonderwall - oasis",
-    "Sugar - Maroon",
-    "Locked Away - R. City",
-  ],
-  pop: [
-    "Shape Of You - Ed Sheeran",
-    "All Of Me - Adele",
-    "Somelike Like You - Adele",
-  ],
-  rock: ["All Of Me - Adele", "Wonderwall - oasis", "Locked Away - R. CityC"],
-  "hip-pop": ["Sugar - Maroon", "Locked Away - R. City"],
-};
+let songsData = {};
+let songImageList = [];
+// Fetch the JSON file using fetch method
+fetch("constants.json")
+  .then((response) => {
+    // Check if the response is successful
+    if (!response.ok) {
+      throw new Error("Network response was not ok");
+    }
+    // Parse the JSON data
+    return response.json();
+  })
+  .then((data) => {
+    // Store the parsed data in the variable
+    jsonData = data;
+    songsData = data.songsData;
+    songImageList = data.songImageList;
 
-const songImageList = [
-  {
-    image:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjqLkI8gw017baWW1awWDHQawi51qfpq7DCA&usqp=CAU",
-    songName: "Shape Of You",
-    songNameWithArtist: "Shape Of You - Ed Sheeran",
-    artistName: "Ed Sheeran",
-    id: 0,
-    song: "./Shape-Of-You.mp3",
-  },
-  {
-    image:
-      "https://content.tomplay.com/preview/2021/01/John-Legend-All-of-Me3.jpg",
-    songName: "All Of Me",
-    songNameWithArtist: "All Of Me - Adele",
-    artistName: "Adele",
-    id: 1,
-    song: "./All-Of-Me.mp3",
-  },
-  {
-    image: "https://i1.sndcdn.com/artworks-000074073161-kmgoqv-t500x500.jpg",
-    songName: "Somelike Like You",
-    songNameWithArtist: "Somelike Like You - Adele",
-    artistName: "Adele",
-    id: 2,
-    song: "./track_2.mp3",
-  },
-  {
-    image: "https://i1.sndcdn.com/artworks-000221645896-kwggra-t500x500.jpg",
-    songName: "Wonderwall",
-    songNameWithArtist: "Wonderwall - oasis",
-    artistName: "Oasis",
-    id: 3,
-    song: "./track_3.mp3",
-  },
-  {
-    image: "https://i1.sndcdn.com/artworks-000107338750-5bxgf8-t500x500.jpg",
-    songName: "Sugar",
-    songNameWithArtist: "Sugar - Maroon",
-    artistName: "Maroon",
-    id: 4,
-    song: "./track_5.mp3",
-  },
-  {
-    image:
-      "https://lastfm.freetls.fastly.net/i/u/ar0/75dab8fb5cd25a73ca9770d76bf33c9f.jpg",
-    songName: "Locked Away",
-    songNameWithArtist: "Locked Away - R. City",
-    artistName: "R. City",
-    id: 5,
-    song: "./track_7.mp3",
-  },
-];
+    //moving inital rendering of songs inside then() block, because the fetching of the JSON data is asynchronous, meaning that the rest of the code continues to execute while the fetch operation is ongoing
+    const getGenreDropdownOptions = document.getElementById("select-genre");
+    Object.entries(songsData).forEach(([key, value]) => {
+      const genreDropOption = document.createElement("option");
+      genreDropOption.value = key;
+      genreDropOption.textContent =
+        key?.charAt(0).toUpperCase() + key.substring(1);
+      getGenreDropdownOptions.appendChild(genreDropOption);
+    });
 
-const getGenreDropdownOptions = document.getElementById('select-genre');
-Object.entries(songsData).forEach(([key,value])=>{
-  const genreDropOption = document.createElement('option');
-  genreDropOption.value = key
-  genreDropOption.textContent = key?.charAt(0).toUpperCase() + key.substring(1)
-  getGenreDropdownOptions.appendChild(genreDropOption);
-})
+    showSongs();
+    renderCurrentSong("Shape Of You - Ed Sheeran");
+
+  })
+  .catch((error) => {
+    console.error("There was a problem with the fetch operation:", error);
+  });
 
 const audioElement = document.getElementById("song-audio");
 let getCurrentSongObj;
-document.getElementById("flexSwitchCheckDefault").addEventListener("change", (e) => toggleTheme(e))
+document
+  .getElementById("flexSwitchCheckDefault")
+  .addEventListener("change", (e) => toggleTheme(e));
 function toggleTheme(e) {
-  e.target.checked === true ? document.getElementById("toggle-container").classList.add("toggle--dark") :document.getElementById("toggle-container").classList.remove("toggle--dark")
-  console.log("theme--->", e.target.checked)
+  e.target.checked === true
+    ? document.getElementById("toggle-container").classList.add("toggle--dark")
+    : document
+        .getElementById("toggle-container")
+        .classList.remove("toggle--dark");
+  console.log("theme--->", e.target.checked);
   const mainElement = document.getElementById("main");
   const checkBoxElement = document.getElementById("flexSwitchCheckDefault");
   const darkThemeElements = document.querySelectorAll(".dark-theme");
@@ -94,20 +56,35 @@ function toggleTheme(e) {
   if (checkBoxElement.checked) {
     mainElement.style.backgroundColor = "gray";
     mainElement.style.color = "#fff";
-    darkThemeElements.forEach((element) => (element.style.backgroundColor = "#40708B"));
+    darkThemeElements.forEach(
+      (element) => (element.style.backgroundColor = "#40708B")
+    );
     genreSelectElement.style.backgroundColor = "#6BB8DE";
-    songListItems.forEach((element) => (element.style.backgroundColor = "gray"));
-    document.getElementById("playlist-searchbar").classList.add("playlist-searchbar--dark")
-    document.getElementById("playlist-container-div").classList.add("playlist-container--dark")
+    songListItems.forEach(
+      (element) => (element.style.backgroundColor = "gray")
+    );
+    document
+      .getElementById("playlist-searchbar")
+      .classList.add("playlist-searchbar--dark");
+    document
+      .getElementById("playlist-container-div")
+      .classList.add("playlist-container--dark");
   } else {
     mainElement.style.backgroundColor = "white";
     mainElement.style.color = "#000";
-    darkThemeElements.forEach((element) => (element.style.backgroundColor = "#6BB8DE"));
+    darkThemeElements.forEach(
+      (element) => (element.style.backgroundColor = "#6BB8DE")
+    );
     genreSelectElement.style.backgroundColor = "#4382a5";
-    songListItems.forEach((element) => (element.style.backgroundColor = "#0A81BC"));
-    document.getElementById("playlist-searchbar").classList.remove("playlist-searchbar--dark")
-    document.getElementById("playlist-container-div").classList.remove("playlist-container--dark")
-
+    songListItems.forEach(
+      (element) => (element.style.backgroundColor = "#0A81BC")
+    );
+    document
+      .getElementById("playlist-searchbar")
+      .classList.remove("playlist-searchbar--dark");
+    document
+      .getElementById("playlist-container-div")
+      .classList.remove("playlist-container--dark");
   }
 }
 
@@ -116,7 +93,9 @@ function renderCurrentSong(value) {
 
   audioElement.pause();
 
-  getCurrentSongObj = songImageList.find((song) => song.songNameWithArtist === value);
+  getCurrentSongObj = songImageList.find(
+    (song) => song.songNameWithArtist === value
+  );
 
   audioElement.src = getCurrentSongObj?.song;
   audioElement.load();
@@ -165,7 +144,7 @@ function showSongs() {
 }
 
 function handlePrevNext(buttonValue) {
-  debugger
+  debugger;
   let songObj;
   if (buttonValue === "next") {
     if (getCurrentSongObj?.id === songImageList?.length - 1) {
@@ -188,13 +167,15 @@ let playlistWiseSongs = {};
 let getNewPlaylistValue;
 
 function removeFromPlaylist(playlistName, songId) {
-  playlistWiseSongs[playlistName] = playlistWiseSongs[playlistName]?.filter((song) => song.id !== songId);
+  playlistWiseSongs[playlistName] = playlistWiseSongs[playlistName]?.filter(
+    (song) => song.id !== songId
+  );
   renderPlaylistSong(playlistWiseSongs, getNewPlaylistValue);
 }
 
 function renderPlaylistSong(playlistWiseSongs, getNewPlaylistValue) {
   const currentPlaylistUl = document.getElementById("current-playlist-ul");
-  currentPlaylistUl.innerHTML = '';
+  currentPlaylistUl.innerHTML = "";
 
   playlistWiseSongs[getNewPlaylistValue]?.forEach((song) => {
     const newPlaylistChildElement = document.createElement("li");
@@ -221,13 +202,19 @@ function renderPlaylistSong(playlistWiseSongs, getNewPlaylistValue) {
       element.style.backgroundColor = "gray";
     });
   }
-  
 }
 
 function addToPlaylistSong() {
-  if (getNewPlaylistValue && !Boolean(playlistWiseSongs[getNewPlaylistValue]?.includes(getCurrentSongObj))) {
+  if (
+    getNewPlaylistValue &&
+    !Boolean(
+      playlistWiseSongs[getNewPlaylistValue]?.includes(getCurrentSongObj)
+    )
+  ) {
     playlistWiseSongs[getNewPlaylistValue]?.push(getCurrentSongObj);
-    playlistWiseSongs[getNewPlaylistValue] = [...new Set(playlistWiseSongs[getNewPlaylistValue])];
+    playlistWiseSongs[getNewPlaylistValue] = [
+      ...new Set(playlistWiseSongs[getNewPlaylistValue]),
+    ];
     renderPlaylistSong(playlistWiseSongs, getNewPlaylistValue);
   }
 }
@@ -238,17 +225,17 @@ searchBar.addEventListener("keyup", (e) => {
 });
 
 function createPlaylist() {
-  document.getElementById("playlist-searchbar").value = '';
+  document.getElementById("playlist-searchbar").value = "";
   const newPlaylistUl = document.getElementById("all-playlist-ul");
   const newPlayListChildElement = document.createElement("li");
-  newPlayListChildElement.classList.add("song-list-li")
+  newPlayListChildElement.classList.add("song-list-li");
   newPlayListChildElement.textContent = getNewPlaylistValue;
   newPlaylistUl.appendChild(newPlayListChildElement);
   playlistWiseSongs[getNewPlaylistValue] = [];
 
   newPlayListChildElement.addEventListener("click", function (e) {
     const currentPlaylistUl = document.getElementById("current-playlist-ul");
-    currentPlaylistUl.innerHTML = '';
+    currentPlaylistUl.innerHTML = "";
     getNewPlaylistValue = e.target.innerHTML;
     renderPlaylistSong(playlistWiseSongs, getNewPlaylistValue);
   });
@@ -261,7 +248,7 @@ function createPlaylist() {
 const searchSongsDropdownContainer = document.createElement("ul");
 searchSongsDropdownContainer.id = "searchFieldOutputSelect";
 const searchSongsContainer = document.getElementById("searchSongsContainer"); //searchSongsContainer
-let searchString = '';
+let searchString = "";
 
 function displayMatchingSongsList(searchString, tempArray) {
   searchSongsDropdownContainer.innerHTML = "";
@@ -322,16 +309,12 @@ function searchSongs() {
   searchBar.addEventListener("keyup", (e) => {
     searchString = e.target.value;
   });
-  
 }
 //search songs functionality - end
 
 // Initial rendering when the page loads
-showSongs();
-renderCurrentSong("Shape Of You - Ed Sheeran");
-
-
-
+// showSongs();
+// renderCurrentSong("Shape Of You - Ed Sheeran");
 
 /* Todo - 
 1) refactor the above code and optimize it using codium
