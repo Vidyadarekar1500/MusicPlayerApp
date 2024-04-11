@@ -310,12 +310,13 @@ align-items: center;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1400px) {
     .app-container {
         display: flex;
         flex-direction: column;
         gap: 20px;
         overflow-y: auto;
+        align-items: center;
     }
     .top-right-container {
         display: flex;
