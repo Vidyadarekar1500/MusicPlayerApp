@@ -310,9 +310,8 @@ function searchSongs() {
     searchString = searchBar.value.trim();
     if (
       searchString?.length === 0 &&
-      searchSongsContainer.contains(searchSongsDropdownContainer)
+      searchSongsContainer.contains(searchSongsDropdownContainer) 
     ) {
-      console.log("in");
       searchSongsContainer.removeChild(searchSongsDropdownContainer);
     }
   };
@@ -327,4 +326,5 @@ function searchSongs() {
 1) refactor the above code and optimize it using codium
 2) add comments to understand the flow
 3) make detailed doc to keep it handy for future
+4) Add logic to remove dropdown on click outside
 */
