@@ -7,14 +7,14 @@ let songImageList = [];
     const response = await fetch("constants.json");
     if(response.status === 200) {
       const data  = await response.json();
-      // response.json() is a method provided by the Fetch API that returns a promise. 
+      // response.json() is a method provided by the Fetch API that returns a promise.
       // This promise resolves with the result of parsing the JSON body text of the response.
       // in summary, await response.json(); is fetching the JSON body of the response, parsing it, and then returning the parsed data.
       return data
     } else{
       throw new Error("Network response was not ok")
     }
-  }catch (e){
+  } catch (e) {
     console.error("There was a problem with the fetch operation:", e);
     return null;
   }
