@@ -147,6 +147,9 @@ label {
 .genre-dropdown-container {
     overflow: hidden;
     float: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .dropbtn {
@@ -174,6 +177,8 @@ label {
 }
 
 .songs-container {
+    display: flex;
+    flex-direction: column;
     margin: 30px 10px;
 }
 
@@ -327,13 +332,16 @@ label {
     justify-content: flex-end;
     align-items: flex-start;
 }
+#matchingSong {
+    cursor: pointer;
+}
 
 #searchSongsContainer {
     margin: 10px;
 }
 
 #searchBoxInput {
-    padding: 4px;
+    padding: 6px;
     border-radius: 5px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     z-index: 1111;
@@ -341,7 +349,8 @@ label {
 }
 
 .searchButton {
-    padding: 2px;
+    padding: 5px;
+    background-color: #0A81BC;
     margin: 5px;
     border-radius: 5px;
 }

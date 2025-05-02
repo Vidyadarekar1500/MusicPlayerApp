@@ -45,55 +45,40 @@ let getCurrentSongObj;
 document
   .getElementById("flexSwitchCheckDefault")
   .addEventListener("change", (e) => toggleTheme(e));
-function toggleTheme(e) {
-  e.target.checked === true
-    ? document.getElementById("toggle-container").classList.add("toggle--dark")
-    : document
-        .getElementById("toggle-container")
-        .classList.remove("toggle--dark");
-  console.log("theme--->", e.target.checked);
+const toggleTheme=(e)=> {
+  const isDarkMode = e.target.checked;
   const mainElement = document.getElementById("main");
   const checkBoxElement = document.getElementById("flexSwitchCheckDefault");
   const darkThemeElements = document.querySelectorAll(".dark-theme");
   const genreSelectElement = document.getElementById("select-genre");
   const songListItems = document.querySelectorAll(".song-list-li");
+  const playlistSearchBar = document.getElementById("playlist-searchbar");
+  const playlistContainerDiv = document.getElementById("playlist-container-div");
 
-  if (checkBoxElement.checked) {
-    mainElement.style.backgroundColor = "gray";
-    mainElement.style.color = "#fff";
-    darkThemeElements.forEach(
-      (element) => (element.style.backgroundColor = "#40708B")
-    );
-    genreSelectElement.style.backgroundColor = "#6BB8DE";
-    songListItems.forEach(
-      (element) => (element.style.backgroundColor = "gray")
-    );
-    document
-      .getElementById("playlist-searchbar")
-      .classList.add("playlist-searchbar--dark");
-    document
-      .getElementById("playlist-container-div")
-      .classList.add("playlist-container--dark");
-  } else {
-    mainElement.style.backgroundColor = "white";
-    mainElement.style.color = "#000";
-    darkThemeElements.forEach(
-      (element) => (element.style.backgroundColor = "#6BB8DE")
-    );
-    genreSelectElement.style.backgroundColor = "#4382a5";
-    songListItems.forEach(
-      (element) => (element.style.backgroundColor = "#0A81BC")
-    );
-    document
-      .getElementById("playlist-searchbar")
-      .classList.remove("playlist-searchbar--dark");
-    document
-      .getElementById("playlist-container-div")
-      .classList.remove("playlist-container--dark");
-  }
+  document
+    .getElementById("toggle-container")
+    .classList.toggle("toggle--dark", isDarkMode);
+
+  mainElement.style.backgroundColor = isDarkMode ? "gray" : "white";
+  mainElement.style.color = isDarkMode ? "#fff" : "#000";
+
+  darkThemeElements.forEach((element) => {
+    element.style.backgroundColor = isDarkMode ? "#40708B" : "#6BB8DE";
+  });
+
+  genreSelectElement.style.backgroundColor = isDarkMode ? "#6BB8DE" : "#4382a5";
+
+  songListItems.forEach((element) => {
+    element.style.backgroundColor = isDarkMode ? "gray" : "#0A81BC";
+  });
+
+  playlistSearchBar.classList.toggle("playlist-searchbar--dark", isDarkMode);
+  playlistContainerDiv.classList.toggle("playlist-container--dark", isDarkMode);
+
 }
 
-function renderCurrentSong(value) {
+
+const renderCurrentSong=(value)=>{
   const imageElement = document.getElementById("song-image");
 
   audioElement.pause();
@@ -118,6 +103,8 @@ function renderCurrentSong(value) {
   imageElement.appendChild(childImageElement);
   imageElement.appendChild(childSongNameElement_1);
   imageElement.appendChild(childSongArtistNameElement_1);
+
+  
 }
 
 function showSongs() {
@@ -250,6 +237,7 @@ function createPlaylist() {
     });
   }
 }
+
 const searchSongsDropdownContainer = document.createElement("ul");
 searchSongsDropdownContainer.id = "searchFieldOutputSelect";
 const searchSongsContainer = document.getElementById("searchSongsContainer"); //searchSongsContainer
@@ -270,6 +258,7 @@ function displayMatchingSongsList(tempArray) {
     const searchSongsDropdownOptions = document.createElement("li");
     searchSongsDropdownOptions.className = "matchingSongsList";
     searchSongsDropdownOptions.id = "matchingSong";
+    searchSongsDropdownOptions.tabIndex = 0; // Make it focusable
     searchSongsDropdownOptions.textContent = song;
 
     searchSongsDropdownOptions.addEventListener("click", (e) => {
@@ -277,8 +266,7 @@ function displayMatchingSongsList(tempArray) {
     });
     searchSongsContainer.appendChild(searchSongsDropdownContainer);
     searchSongsDropdownContainer.appendChild(searchSongsDropdownOptions);
-  });
-}
+  });}
 
 //search songs functionality - starts 
 function onSearchClick() {
@@ -306,6 +294,11 @@ function searchSongs() {
   searchBar.addEventListener("keyup", (e) => {
     searchString = e.target.value;
   });
+/**
+ * Handles search bar input and blur events to display or remove the list of 
+ * matching songs. If the search bar is empty and the list of matching songs is 
+ * displayed, the list is removed. Otherwise, the list remains displayed.
+ */
   const handleSearch = () => {
     searchString = searchBar.value.trim();
     if (
